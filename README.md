@@ -22,9 +22,6 @@ Redux Toolkit.
 
 ```
 
-
-
-
 ## Screens
 
 - Dashboard overview with KPI cards, revenue chart, system alerts, health status, and recent transactions
@@ -40,4 +37,10 @@ The user directory uses the free [DummyJSON Users API](https://dummyjson.com/use
 ## State and data
 
 Redux Toolkit stores the selected dashboard section and shared search text. TanStack Query fetches and caches the user directory, with retry and stale-time behavior configured in `app/providers.tsx`. The user view presents loading, error, empty, and successful states.
+
+## Recorded Video:-
+
+https://github.com/user-attachments/assets/232d4bc4-5a52-41fd-a34a-69bf161cabd7
+
+
 
