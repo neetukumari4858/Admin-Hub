@@ -1,26 +1,998 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.filter-search {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  max-width: 260px;
+  cursor: text;
+}
+.filter-search > input {
+  width: 100%;
+  min-width: 0;
+  padding-left: 32px !important;
+  background-image: none !important;
+}
+.filter-search > svg {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  display: block;
+  width: 16px;
+  height: 16px;
+  transform: translateY(-50%);
+  color: #8492a6;
+  pointer-events: none;
+}
+.user-filters .filter-search {
+  max-width: 310px;
+}
+.dashboard-filter {
+  border: 1px solid #d7deea !important;
+}
+.export-button {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  white-space: nowrap;
+  border: 1px solid #d5deeb !important;
+  border-radius: 6px;
+}
+.export-button img {
+  width: 15px;
+  height: 15px;
+  object-fit: contain;
+}
+.detail-top-icon-hook {
+  display: none;
+}
+.booking-service-title-hook {
+  display: none;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* Mobile layouts follow the supplied compact AdminHub references. These rules
+   are limited to phones; the existing desktop layout remains untouched. */
+@media (max-width: 760px) {
+  body {
+    font-size: 14px;
+  }
+  aside:has(button[aria-label="Close navigation"]) {
+    display: flex !important;
+    width: min(82vw, 280px);
+    padding: 14px 12px;
+  }
+  main {
+    width: 100% !important;
+    margin-left: 0 !important;
+    padding-bottom: 72px !important;
+  }
+  main > header {
+    height: 44px !important;
+    min-height: 44px !important;
+    padding: 0 12px !important;
+    display: flex !important;
+  }
+  main > header > div:first-child {
+    display: flex !important;
+    gap: 8px !important;
+  }
+  main > header > div:first-child button {
+    width: 30px !important;
+    height: 30px !important;
+  }
+  main > header > div:first-child > span {
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 5px !important;
+  }
+  main > header > div:first-child strong {
+    font-size: 12px !important;
+  }
+  main > header > div:last-child {
+    gap: 8px !important;
+  }
+  main > header > div:last-child > button,
+  main > header > div:last-child > div {
+    width: 28px !important;
+    height: 28px !important;
+  }
+  main > header > div:last-child > button svg {
+    width: 15px;
+    height: 15px;
+  }
+  main:has(.dashboard-page-hook) > header {
+    height: 50px !important;
+    min-height: 50px !important;
+    padding: 0 10px !important;
+  }
+  main:has(.dashboard-page-hook) > header > div:first-child button {
+    width: 24px !important;
+    height: 24px !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+  main:has(.dashboard-page-hook) > .dashboard-mobile-content-hook {
+    padding: 12px 14px 28px !important;
+  }
+  main:has(.dashboard-page-hook) .dashboard-tabs-hook > button {
+    min-height: 25px !important;
+    height: 25px !important;
+    padding: 0 8px !important;
+    font-size: 10px !important;
+    line-height: 1 !important;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  .dashboard-mobile-content-hook {
+    padding: 12px 14px 28px !important;
+  }
+  .dashboard-page-hook {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+  .dashboard-welcome-hook {
+    display: grid !important;
+    gap: 2px !important;
+    margin: 0 !important;
+  }
+  .dashboard-welcome-hook strong {
+    font-size: 15px !important;
+    line-height: 1.25;
+  }
+  .dashboard-welcome-hook small {
+    font-size: 10px !important;
+  }
+  .dashboard-tabs-hook {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px !important;
+    border: 0 !important;
+    margin: 0 !important;
+  }
+  .dashboard-tabs-hook > button {
+    display: block !important;
+    height: 23px !important;
+    padding: 0 6px !important;
+    border: 1px solid #e4eaf1 !important;
+    border-radius: 6px;
+    background: white !important;
+    color: #526176 !important;
+    font-size: 11px !important;
+    white-space: nowrap;
+  }
+  .dashboard-tabs-hook > button.active-tab {
+    background: #4f46e5 !important;
+    border-color: #4f46e5 !important;
+    color: white !important;
+  }
+  .dashboard-tabs-hook > button:nth-child(n + 4) {
+    display: none !important;
+  }
+  .dashboard-metrics-hook {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+    margin: 0 !important;
+  }
+  .dashboard-metrics-hook .metric-icon-hook {
+    display: none !important;
+  }
+  .dashboard-metrics-hook > article {
+    min-width: 0;
+    min-height: 73px;
+    padding: 9px 10px !important;
+  }
+  .dashboard-metrics-hook > article > div:first-child {
+    font-size: 10px !important;
+  }
+  .dashboard-metrics-hook > article > strong {
+    margin: 4px 0 3px !important;
+    font-size: 16px !important;
+  }
+  .dashboard-metrics-hook > article > div:last-child > span,
+  .dashboard-metrics-hook > article > div:last-child > small {
+    font-size: 7px !important;
+  }
+  .dashboard-grid-hook {
+    display: contents !important;
+  }
+  .dashboard-side-widgets-hook {
+    display: contents !important;
+  }
+  .dashboard-chart-hook,
+  .dashboard-transactions-hook,
+  .dashboard-alert-hook,
+  .dashboard-health-hook {
+    min-width: 0;
+    padding: 11px !important;
+    border-radius: 7px;
+  }
+  .dashboard-chart-hook {
+    order: 3;
+  }
+  .dashboard-transactions-hook {
+    order: 4;
+  }
+  .dashboard-alert-hook {
+    order: 5;
+  }
+  .dashboard-health-hook {
+    order: 6;
+  }
+  .dashboard-chart-hook > div:first-child,
+  .dashboard-transactions-hook > div:first-child {
+    align-items: center;
+    margin: 0 0 7px !important;
+  }
+  .dashboard-chart-hook h2,
+  .dashboard-transactions-hook h2,
+  .dashboard-alert-hook h2,
+  .dashboard-health-hook h2 {
+    margin: 0 !important;
+    font-size: 12px !important;
+  }
+  .dashboard-chart-hook .card-heading small {
+    margin-top: 3px;
+    font-size: 9px !important;
+  }
+  .dashboard-chart-hook > div:first-child::after {
+    content: "6M";
+    color: #718096;
+    font-size: 8px;
+  }
+  .dashboard-chart-hook > div:first-child > div:last-child {
+    display: none !important;
+  }
+  .dashboard-chart-area-hook {
+    height: auto !important;
+    min-height: 0;
+    padding: 0 !important;
+  }
+  .dashboard-chart-area-hook > svg,
+  .dashboard-y-axis-hook,
+  .dashboard-x-axis-hook {
+    display: none !important;
+  }
+  .mobile-revenue-chart-hook {
+    display: grid !important;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    align-items: end;
+    gap: 7px;
+    height: 74px;
+    padding: 5px 4px 0;
+    border-bottom: 1px solid #e4eaf1;
+  }
+  .mobile-revenue-chart-hook > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+    gap: 5px;
+    height: 100%;
+  }
+  .mobile-revenue-chart-hook small {
+    color: #718096;
+    font-size: 9px !important;
+  }
+  .revenue-bar-hook {
+    display: flex;
+    align-items: end;
+    width: min(30px, 72%);
+    height: 100%;
+  }
+  .revenue-bar-hook i {
+    display: block;
+    width: 100%;
+    min-height: 8px;
+    border-radius: 4px 4px 0 0;
+    background: #695fe8;
+  }
+  .dashboard-filter {
+    display: none !important;
+  }
+  .dashboard-view-all {
+    display: inline-flex !important;
+    margin-left: auto;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #4f46e5;
+    font-size: 10px;
+  }
+  .dashboard-desktop-table {
+    display: none !important;
+  }
+  .dashboard-mobile-transaction-list-hook {
+    display: grid !important;
+    gap: 6px;
+  }
+  .dashboard-mobile-transaction-list-hook > button {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 100%;
+    min-height: 54px !important;
+    padding: 8px !important;
+    border: 1px solid #e4eaf1;
+    border-radius: 6px;
+    background: white;
+    text-align: left;
+  }
+  .dashboard-transactions-hook {
+    padding: 11px !important;
+  }
+  .dashboard-pagination-hook {
+    display: none !important;
+  }
+  .dashboard-mobile-transaction-list-hook > button {
+    min-height: 50px !important;
+    padding: 7px 9px !important;
+  }
+  .dashboard-mobile-transaction-list-hook img,
+  .dashboard-mobile-transaction-list-hook > button > span:first-child {
+    width: 26px !important;
+    height: 26px !important;
+    flex: 0 0 26px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .dashboard-mobile-transaction-list-hook > button > span:nth-child(2) {
+    display: grid;
+    flex: 1;
+    min-width: 0;
+    gap: 3px;
+  }
+  .dashboard-mobile-transaction-list-hook > button > span:nth-child(2) b {
+    font-size: 11px;
+  }
+  .dashboard-mobile-transaction-list-hook > button > span:nth-child(2) small {
+    color: #718096;
+    font-size: 9px;
+  }
+  .dashboard-mobile-transaction-list-hook > button > span:last-child {
+    display: grid;
+    justify-items: end;
+    gap: 4px;
+  }
+  .dashboard-mobile-transaction-list-hook > button > span:last-child b {
+    font-size: 11px;
+  }
+  .dashboard-mobile-transaction-list-hook .badge {
+    padding: 3px 6px;
+    font-size: 8px;
+  }
+  main:has(.dashboard-page-hook) .dashboard-transactions-hook h2 {
+    font-size: 12px !important;
+    line-height: 1.25 !important;
+  }
+  main:has(.dashboard-page-hook) .dashboard-view-all-hook {
+    margin: 0 0 0 auto !important;
+    padding: 2px 0 !important;
+    font-size: 10px !important;
+    line-height: 1.25 !important;
+  }
+  main:has(.dashboard-page-hook) .dashboard-mobile-transaction-list-hook > button > span:nth-child(2) b,
+  main:has(.dashboard-page-hook) .dashboard-mobile-transaction-list-hook > button > span:last-child b {
+    font-size: 11px !important;
+    line-height: 1.25 !important;
+  }
+  main:has(.dashboard-page-hook) .dashboard-mobile-transaction-list-hook > button > span:nth-child(2) small {
+    font-size: 9px !important;
+    line-height: 1.3 !important;
+  }
+  .dashboard-alert-hook .dashboard-alert-row-hook {
+    display: flex;
+    gap: 8px;
+    padding: 8px 0;
+  }
+  .dashboard-alert-row-hook b {
+    font-size: 10px !important;
+  }
+  .dashboard-alert-row-hook small {
+    margin-top: 2px;
+    font-size: 8px !important;
+  }
+  .dashboard-health-hook > div {
+    padding: 8px 0 !important;
+    font-size: 10px !important;
+  }
+
+  .mobile-navigation,
+  main > nav {
+    height: 50px !important;
+    padding-bottom: env(safe-area-inset-bottom) !important;
+  }
+  main > nav > button {
+    min-width: 0 !important;
+    gap: 3px !important;
+    font-size: 8px !important;
+  }
+  main > nav > button svg {
+    width: 15px !important;
+    height: 15px !important;
+  }
+  main:has(.dashboard-page-hook) > nav {
+    height: 50px !important;
+  }
+  main:has(.dashboard-page-hook) > nav > button {
+    gap: 3px !important;
+    font-size: 8px !important;
+  }
+  main:has(.dashboard-page-hook) > nav > button svg {
+    width: 15px !important;
+    height: 15px !important;
+  }
+
+  .mobile-page-intro {
+    display: block !important;
+    margin: 3px 0 12px !important;
+  }
+  .mobile-page-intro h1 {
+    margin: 0 0 3px !important;
+    font-size: 18px !important;
+    line-height: 1.25;
+  }
+  .mobile-page-intro p {
+    margin: 0 !important;
+    color: #718096;
+    font-size: 10px !important;
+  }
+  .page-heading {
+    display: none !important;
+  }
+  main > section:has(.users-metrics),
+  .users-mobile-layout-hook {
+    display: flex !important;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .users-metrics {
+    order: 2;
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 7px !important;
+    width: 100%;
+    margin: 0 !important;
+  }
+  .users-metrics > article {
+    min-width: 0;
+    min-height: 70px;
+    padding: 10px 8px !important;
+  }
+  .users-metrics > article > div:first-child {
+    font-size: 8px !important;
+  }
+  .users-metrics > article > strong {
+    margin: 5px 0 0 !important;
+    font-size: 14px !important;
+  }
+  .directory-card {
+    display: contents !important;
+  }
+  .user-toolbar {
+    order: 1;
+    width: 100%;
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+  .user-toolbar .user-filters {
+    display: flex;
+    flex-wrap: nowrap !important;
+    gap: 7px;
+    width: 100%;
+  }
+  .user-toolbar input {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    height: 38px;
+  }
+  .user-toolbar .filter-search {
+    max-width: none;
+  }
+  .user-toolbar .user-filter-toggle-hook {
+    display: grid !important;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+  }
+  .mobile-page-action {
+    order: 3;
+    display: block !important;
+    width: 100%;
+    max-width: none !important;
+    min-height: 38px !important;
+    margin: 0 !important;
+    border-radius: 6px;
+    font-size: 12px !important;
+  }
+  .mobile-user-list {
+    order: 4;
+    display: grid !important;
+    gap: 8px !important;
+  }
+  .mobile-user-card-hook {
+    display: grid !important;
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    grid-template-rows: auto 1px auto !important;
+    gap: 6px 9px !important;
+    min-height: 68px !important;
+    padding: 9px !important;
+    border: 1px solid #e4eaf1;
+    border-radius: 7px;
+    background: white;
+    text-align: left;
+  }
+  .mobile-user-card-hook > span:first-child {
+    grid-column: 1;
+    grid-row: 1 !important;
+    width: 34px;
+    height: 34px;
+  }
+  .mobile-user-card .mobile-record-avatar,
+  .mobile-user-card .mobile-avatar-image {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .mobile-user-heading {
+    grid-column: 2;
+    grid-row: 1;
+    display: grid;
+    min-width: 0;
+    gap: 3px;
+  }
+  .mobile-user-heading b {
+    overflow: hidden;
+    color: #253149;
+    font-size: 11px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .mobile-user-heading small {
+    overflow: hidden;
+    color: #718096;
+    font-size: 9px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .mobile-user-actions {
+    grid-column: 3;
+    grid-row: 1;
+    display: flex;
+    gap: 9px;
+    color: #526176;
+  }
+  .mobile-user-divider-hook {
+    display: block !important;
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+    width: 100%;
+    height: 1px;
+    background: #e4eaf1;
+  }
+  .mobile-user-badges-hook {
+    grid-column: 2;
+    grid-row: 3 !important;
+    display: flex;
+    gap: 5px;
+  }
+  .mobile-user-card-hook .badge {
+    padding: 3px 6px;
+    font-size: 8px;
+  }
+  .mobile-user-last-active-hook {
+    grid-column: 3;
+    grid-row: 3 !important;
+    align-self: center;
+    color: #718096;
+    font-size: 8px;
+    white-space: nowrap;
+  }
+  .pagination {
+    order: 5;
+  }
+
+  main > section:has(.transaction-success),
+  main > section:has(.booking-toolbar) {
+    display: flex !important;
+    flex-direction: column;
+    gap: 10px;
+  }
+  main > section:has(.transaction-success) > .directory-card,
+  main > section:has(.booking-toolbar) > .directory-card {
+    display: contents !important;
+  }
+  main > section:has(.transaction-success) > .metrics-grid,
+  main > section:has(.booking-toolbar) > .metrics-grid {
+    order: 2;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    margin: 0 !important;
+  }
+  main > section:has(.booking-toolbar) > .metrics-grid .metric-icon-hook,
+  main > section:has(.booking-toolbar) > .metrics-grid .metric-foot-hook {
+    display: none !important;
+  }
+  .metrics-grid.metrics-grid > article,
+  .metrics-grid.metrics-grid > div {
+    min-height: 66px;
+    padding: 10px !important;
+  }
+  .metrics-grid.metrics-grid > article > strong,
+  .metrics-grid.metrics-grid > div article > strong {
+    font-size: 15px !important;
+  }
+  main
+    > section:has(.transaction-success)
+    > .directory-card
+    > .transaction-toolbar,
+  main > section:has(.booking-toolbar) > .directory-card > .booking-toolbar {
+    order: 3;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    width: 100%;
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+  .transaction-toolbar .transaction-filters,
+  .booking-toolbar .booking-filters {
+    display: flex;
+    flex-wrap: nowrap !important;
+    width: 100%;
+    gap: 7px;
+  }
+  .transaction-toolbar input,
+  .booking-toolbar input {
+    flex: 1;
+    width: auto;
+    min-width: 0 !important;
+    height: 38px;
+  }
+  .filter-search {
+    max-width: none;
+  }
+  .booking-export-button {
+    display: none !important;
+  }
+  .filter-icon-button {
+    display: grid !important;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+  }
+  main > section:has(.transaction-success) > .mobile-page-intro,
+  main > section:has(.booking-toolbar) > .mobile-page-intro {
+    order: 1;
+  }
+  main
+    > section:has(.transaction-success)
+    > .directory-card
+    > .mobile-transaction-list,
+  main
+    > section:has(.booking-toolbar)
+    > .directory-card
+    > .mobile-booking-list {
+    order: 4;
+    display: grid !important;
+    gap: 8px;
+  }
+  main > section:has(.transaction-success) > .directory-card > .pagination,
+  main > section:has(.booking-toolbar) > .directory-card > .pagination {
+    order: 5;
+  }
+  main > section:has(.booking-toolbar) > .directory-card > .booking-toolbar {
+    order: 4;
+  }
+  main
+    > section:has(.transaction-success)
+    > .directory-card
+    > .transaction-toolbar {
+    order: 2;
+  }
+  main > section:has(.transaction-success) > .metrics-grid {
+    order: 3;
+  }
+  main > section:has(.booking-toolbar) > .directory-card > .mobile-page-action {
+    order: 3;
+  }
+  main
+    > section:has(.booking-toolbar)
+    > .directory-card
+    > .mobile-booking-list {
+    order: 5;
+  }
+  main > section:has(.booking-toolbar) > .directory-card > .pagination {
+    order: 6;
+  }
+  .mobile-structured-card {
+    display: grid !important;
+    gap: 8px !important;
+    width: 100%;
+    min-height: 0 !important;
+    padding: 10px !important;
+    border: 1px solid #e4eaf1;
+    border-radius: 7px;
+    background: white;
+    text-align: left;
+  }
+  .mobile-listing-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 10px;
+  }
+  .mobile-listing-divider {
+    display: block;
+    height: 1px;
+    background: #e4eaf1;
+  }
+  .mobile-listing-body {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
+  }
+  .mobile-avatar-wrap {
+    position: relative;
+    display: inline-grid;
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+  .mobile-avatar-wrap > span,
+  .mobile-avatar-wrap > img {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .mobile-avatar-wrap > img {
+    z-index: 1;
+  }
+  .mobile-record-main {
+    display: grid;
+    flex: 1;
+    min-width: 0;
+    gap: 3px;
+  }
+  .mobile-record-main b {
+    font-size: 10px;
+  }
+  .mobile-record-main small {
+    overflow: hidden;
+    color: #718096;
+    font-size: 8px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .mobile-record-end {
+    display: grid;
+    flex: none;
+    justify-items: end;
+    gap: 4px;
+  }
+  .mobile-record-end > b {
+    font-size: 10px;
+  }
+  .mobile-record-end .badge,
+  .mobile-listing-top .badge {
+    padding: 3px 6px;
+    font-size: 8px;
+  }
+
+  .detail-mobile-main-hook > header,
+  main:has(.detail-page) > header {
+    display: none !important;
+  }
+  .detail-page {
+    display: grid;
+    gap: 9px !important;
+  }
+  .detail-breadcrumb {
+    min-height: 32px;
+    margin: 0 !important;
+    font-size: 11px;
+  }
+  .detail-top-icon-hook {
+    display: grid !important;
+    flex: 0 0 24px;
+    width: 24px !important;
+    height: 24px !important;
+    margin-left: auto !important;
+    padding: 0 !important;
+    place-items: center;
+    border: 1px solid #e4eaf1 !important;
+    border-radius: 50%;
+    background: #fff !important;
+    color: #526176 !important;
+  }
+  .detail-hero {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+    gap: 8px !important;
+    min-height: 0 !important;
+    padding: 13px !important;
+    border-radius: 7px;
+    text-align: center;
+  }
+  .detail-hero h1 {
+    margin: 0 0 4px !important;
+    font-size: 14px !important;
+  }
+  .booking-service-title-hook {
+    display: block;
+    margin: 0 0 2px;
+    color: #172238;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  .booking-id-title-hook {
+    margin-bottom: 3px !important;
+    font-size: 10px !important;
+    line-height: 1.2;
+  }
+  .detail-hero p {
+    margin: 0 !important;
+    color: #718096;
+    font-size: 9px !important;
+    line-height: 1.4;
+  }
+  .detail-joined-hook,
+  .transaction-reference-hook,
+  .booking-schedule-hook,
+  .transaction-hero-icon-hook,
+  .booking-hero-icon-hook {
+    display: none !important;
+  }
+  .detail-hero .detail-avatar,
+  .detail-hero .back-mark,
+  .detail-hero > div {
+    grid-column: 1 / -1;
+  }
+  .detail-hero > .detail-actions {
+    grid-column: 1 / -1;
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+    width: 100%;
+    margin: 0 !important;
+  }
+  .detail-hero .detail-actions > button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 0;
+    min-height: 36px;
+    padding: 6px !important;
+    font-size: 9px !important;
+  }
+  .detail-hero .detail-actions > .detail-edit-profile-hook,
+  .detail-hero .detail-actions > .detail-reschedule-hook {
+    border: 1px solid #4f46e5 !important;
+    background: #4f46e5 !important;
+    color: #fff !important;
+  }
+  .detail-hero .detail-actions > .detail-danger-action-hook {
+    border: 1px solid #ef4444 !important;
+    background: #fff !important;
+    color: #dc2626 !important;
+  }
+  .detail-hero > .badge {
+    justify-self: center;
+  }
+  .detail-avatar {
+    width: 56px !important;
+    height: 56px !important;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .detail-columns,
+  .detail-bottom-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 9px !important;
+  }
+  .detail-stack {
+    display: grid;
+    gap: 9px !important;
+  }
+  .detail-card {
+    min-width: 0;
+    padding: 12px !important;
+    border-radius: 7px;
+  }
+  .detail-card h2 {
+    margin: 0 0 7px !important;
+    font-size: 12px !important;
+  }
+  .detail-lines {
+    margin: 0 !important;
+  }
+  .detail-lines > span {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 0 !important;
+    font-size: 9px !important;
+  }
+  .detail-lines b {
+    max-width: 64%;
+    overflow-wrap: anywhere;
+    font-size: 9px !important;
+    text-align: right;
+  }
+  .detail-lines .badge {
+    flex: none;
+  }
+  .booking-note-row {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 5px !important;
+  }
+  .booking-note-row b {
+    max-width: none !important;
+    text-align: left !important;
+    line-height: 1.45;
+  }
+  .activity-item {
+    padding: 8px 0 8px 13px !important;
+    font-size: 9px;
+  }
+  .activity-item small {
+    font-size: 8px !important;
+  }
+  .detail-page:has(.related-ledger) .related-ledger {
+    display: none;
+  }
+  .detail-page .table-wrap {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .detail-page .table-wrap table {
+    min-width: 500px;
+  }
+  .detail-page .detail-bottom-grid .table-wrap table {
+    min-width: 0;
+    table-layout: fixed;
+  }
+  .detail-page .detail-bottom-grid th,
+  .detail-page .detail-bottom-grid td {
+    padding: 5px 3px;
+    font-size: 8px;
+  }
+  .detail-page:has(.calendar-mark) .detail-hero > .calendar-mark {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+  .detail-page:has(.calendar-mark) .detail-hero p:not(.booking-schedule-hook) {
+    display: block !important;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@media (min-width: 761px) {
+  .user-desktop-table .plain-action {
+    width: 22px;
+    height: 22px;
+    padding: 2px;
+  }
+  .user-desktop-table .plain-action img {
+    width: 12px;
+    height: 12px;
+    object-fit: contain;
+  }
 }

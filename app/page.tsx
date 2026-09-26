@@ -1,68 +1,146 @@
-import Image from "next/image";
+"use client";
+import { cx } from "./lib/cx";
+
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useAppDispatch, useAppSelector } from "./state/hooks";
+import { setSection, setSearch } from "./state/dashboardSlice";
+import { Sidebar, Topbar } from "./components/AdminNavigation";
+import MobileNavigation from "./components/MobileNavigation";
+import DashboardPage from "./pages/DashboardPage";
+import UsersPage from "./pages/UsersPage";
+import TransactionsPage from "./pages/TransactionsPage";
+import BookingsPage from "./pages/BookingsPage";
+import ProfilePage from "./pages/ProfilePage";
+import RecordDetails from "./components/RecordDetails";
+import { getUsers } from "./data/api";
+import { pageCopy, type ApiUsers, type Section, type User } from "./data/records";
 
 export default function Home() {
+  const dispatch = useAppDispatch();
+  const { section, search } = useAppSelector((state) => state.dashboard);
+  const [page, setPage] = useState(1);
+  const [detail, setDetail] = useState<User | string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data, isLoading, isError, error, refetch } = useQuery<ApiUsers>({
+    queryKey: ["users"],
+    queryFn: getUsers,
+    staleTime: 60_000,
+  });
+  const copy = pageCopy[section];
+  const avatars = data?.users.map((user) => user.image) ?? [];
+
+  function navigate(nextSection: Section) {
+    setMobileMenuOpen(false);
+    setDetail(null);
+    setPage(1);
+    dispatch(setSection(nextSection));
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className={cx("flex min-h-screen bg-[#f6f8fb] font-[Arial,Helvetica,sans-serif] text-[13px] text-[#172238]")}>
+      {mobileMenuOpen && (
+        <button
+          className={cx("fixed inset-0 z-[11] hidden border-0 bg-[#101828b3] max-[760px]:block")}
+          aria-label="Close navigation"
+          onClick={() => setMobileMenuOpen(false)}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
+      )}
+      <Sidebar
+        active={section}
+        onSelect={navigate}
+        onClose={() => setMobileMenuOpen(false)}
+        mobileOpen={mobileMenuOpen}
+      />
+      <main
+        className={cx(`ml-56 min-h-screen w-[calc(100%-224px)] max-[1100px]:ml-[190px] max-[1100px]:w-[calc(100%-190px)] max-[760px]:ml-0 max-[760px]:w-full max-[760px]:pb-16 ${section === "Dashboard" ? "main-dashboard" : ""} ${detail ? "detail-mobile-main-hook" : ""}`)}
+      >
+        <Topbar
+          title={copy.title}
+          search={search}
+          onSearch={(value) => dispatch(setSearch(value))}
+          onMenuToggle={() => setMobileMenuOpen((open) => !open)}
+          avatarUrl={avatars[0]}
+        />
+        <section className={`${cx("content mx-auto w-full max-w-[1500px] px-7 pb-10 pt-[25px] max-[1100px]:px-5 max-[760px]:px-3 max-[760px]:pb-[72px] max-[760px]:pt-3")} ${section === "Dashboard" ? "dashboard-mobile-content-hook" : ""} ${section === "Users" ? "users-mobile-layout-hook" : ""}`}>
+          {section !== "Dashboard" && section !== "Profile" && !detail && (
+            <div className={`${cx("mobile-page-intro")} mobile-page-intro`}>
+              <h1>{section === "Bookings" ? "Active Bookings" : copy.title}</h1>
+              <p>{copy.description}</p>
+            </div>
+          )}
+          {!detail && <div className={cx(`page-heading page-heading-${section.toLowerCase()}`)}>
+            <div>
+              <h1>{copy.heading}</h1>
+              <p>{copy.description}</p>
+            </div>
+            {!detail && (section === "Users" || section === "Bookings") && (
+              <button className={cx("primary")} type="button">
+                + {section === "Users" ? "Add User" : "New Booking"}
+              </button>
+            )}
+          </div>}
+          {detail ? (
+            <RecordDetails
+              detail={detail}
+              section={section}
+              onBack={() => setDetail(null)}
+              avatarSources={avatars}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+          ) : (
+            <>
+              {section === "Dashboard" && (
+                <DashboardPage
+                  onNavigate={navigate}
+                  onTransaction={(id) => {
+                    navigate("Transactions");
+                    setDetail(id);
+                  }}
+                  avatarSources={avatars}
+                />
+              )}
+              {section === "Users" && (
+                <UsersPage
+                  users={data?.users ?? []}
+                  total={data?.total ?? 0}
+                  isLoading={isLoading}
+                  isError={isError}
+                  error={error instanceof Error ? error : null}
+                  refetch={() => {
+                    void refetch();
+                  }}
+                  search={search}
+                  onSearch={(value) => dispatch(setSearch(value))}
+                  page={page}
+                  setPage={setPage}
+                  onDetail={setDetail}
+                />
+              )}
+              {section === "Transactions" && (
+                <TransactionsPage
+                  search={search}
+                  onSearch={(value) => dispatch(setSearch(value))}
+                  page={page}
+                  setPage={setPage}
+                  onDetail={setDetail}
+                  avatarSources={avatars}
+                />
+              )}
+              {section === "Bookings" && (
+                <BookingsPage
+                  search={search}
+                  onSearch={(value) => dispatch(setSearch(value))}
+                  page={page}
+                  setPage={setPage}
+                  onDetail={setDetail}
+                  avatarSources={avatars}
+                />
+              )}
+              {section === "Profile" && <ProfilePage />}
+            </>
+          )}
+        </section>
+        <MobileNavigation active={section} onSelect={navigate} />
       </main>
     </div>
   );

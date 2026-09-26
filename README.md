@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AdminHub
 
-## Getting Started
+A responsive admin dashboard inspired by the supplied Figma screens. Built with Next.js App Router, TypeScript, React, Tailwind CSS, TanStack Query, and Redux Toolkit.
 
-First, run the development server:
+## Run locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). For a production build, run `npm run build` and then `npm start`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Screens
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Dashboard overview with KPI cards, revenue chart, system alerts, health status, and recent transactions
+- Users directory with search, role filter, pagination, loading/error/empty states, selectable rows, and a user detail view
+- Transactions ledger with summary cards, search, status badges, pagination, and a transaction detail view
+- Bookings directory with summary cards, search, filters, and a booking detail view
+- Responsive mobile bottom navigation and horizontal scrolling for dense data tables
 
-## Learn More
+## Public API
 
-To learn more about Next.js, take a look at the following resources:
+The user directory uses the free [DummyJSON Users API](https://dummyjson.com/users?limit=30). The dashboard's business metrics and sample transaction and booking records are illustrative frontend data because DummyJSON does not provide those business records.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## State and data
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Redux Toolkit stores the selected dashboard section and shared search text. TanStack Query fetches and caches the user directory, with retry and stale-time behavior configured in `app/providers.tsx`. The user view presents loading, error, empty, and successful states.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
