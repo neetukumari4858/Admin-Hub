@@ -1,6 +1,6 @@
 # AdminHub
 
-A responsive admin dashboard inspired by the supplied Figma screens. Built with Next.js App Router, TypeScript, React, Tailwind CSS, TanStack Query, and Redux Toolkit.
+A Responsive admin dashboard created by the supplied Figma screens. Built with Next.js App Router, TypeScript, React, Tailwind CSS, TanStack Query, and Redux Toolkit.
 
 ## Run locally
 
@@ -9,7 +9,21 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). For a production build, run `npm run build` and then `npm start`.
+#### Deployed Link: https://neetu-adminhub.netlify.app/
+
+## Technology Used
+```bash
+NextJs (App Router) 
+TypeScript
+ReactJs
+Tailwind CSS
+TanStack Query
+Redux Toolkit.
+
+```
+
+
+
 
 ## Screens
 
